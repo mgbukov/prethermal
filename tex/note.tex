@@ -1,0 +1,89 @@
+\documentclass[onecolumn,superscriptaddress,notitlepage]{revtex4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{subfigure}
+\usepackage{natbib}
+\usepackage{epsfig}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage[toc,page,title,titletoc,header]{appendix}
+\usepackage[colorlinks,linkcolor=blue,citecolor=blue,anchorcolor=blue]{hyperref}
+\usepackage{dsfont,amsthm,amsbsy}
+\usepackage{titlesec}
+\usepackage{indentfirst}
+
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}{-\baselineskip}{0.5\baselineskip}{\bf}}
+\renewcommand\thesection{\arabic{section}}
+\makeatother
+
+\begin{document}
+\title{Floquet quantum system in a classical bath}
+
+\author{Bingtian Ye}
+\affiliation{Department of Physics, Univerisity of California, Berkeley}
+\author{Marin Bukov}
+\affiliation{Department of Physics, Univerisity of California, Berkeley}
+\maketitle
+\section{the Hamiltonian}
+The full Hamiltonian is seperated into three parts:
+\begin{equation}
+\hat{H}=\hat{H}_{q}+\hat{H}_{c}+\hat{H}_{int},
+\end{equation}
+where $\hat{H}_{q}$, $\hat{H}_{c}$, and $\hat{H}_{int}$ are the Hamiltonian for the quantum part, classical part and interaction respectively. 
+All the three terms can be formally expressed as:
+\begin{equation}
+\hat{H}_{q,c,int}=
+\begin{cases}
+\sum_{i,j} J_{i,j} S^z_i S^z_j + \sum_i g_i S^z_i & nT\le t<(n+1/2)T \\
+\sum_i h_i S^x_i & (n+1/2)T\le t<(n+1)T,
+\end{cases}
+\end{equation}
+where $S^\alpha_i$ represents a pauli matrix $\hat{\sigma}^\alpha_i$ for a quantum spin on site $i$, and it represents a 3D unit vector $\vec{s}^\alpha_i$ for a classical spin on site $i$. 
+
+$\hat{H}_{q}$ only consists of quantum operators, and has no ambiguity when it acts on quantum spins. 
+$\hat{H}_{c}$ determines the evolution of classical spins by Hamilton canonical equations and Poisson brackets:
+\begin{gather}
+\frac{ds^\alpha_i}{dt} = \{s^\alpha_i,H_c\}\\
+\{s^\alpha_i,s^\beta_j\} = \delta_{i,j} \epsilon^{\alpha\beta\gamma}s^\gamma_i,
+\end{gather}
+As for the interaction $\hat{H}_{int}$, we treat the classical spin $\vec{S}$ as time-dependent local fields when apply it to quantum spins, and use the expectation value of quantum spins $\langle\hat{S}\rangle$ as time-dependent local fields for the related classical spins. 
+
+All the three terms preserve $S^z$ during the first half of driving period, and preserve $S^x$ during the second half, which simplifies the simulation a lot. 
+For the quantum part, we can apply local unitary evolution on each bond in sequence, without introducing Trotter errors. 
+For the classical part, we can derive an analytical expression for the evolution. 
+In particular, during the first half of period, the equations of motion are:
+\begin{equation}
+\begin{split}
+\frac{ds^x_i}{dt} &= -\tilde{g}_i s^y_i, \\
+\frac{ds^y_i}{dt} &= \tilde{g}_i s^x_i, \\
+\frac{ds^z_i}{dt} &= 0, 
+\end{split}
+\end{equation}
+where $\tilde{g}_i = g_i+\sum_{j} J_{i,j} S^z_j$ with $j$ running over all sites adjacent to $i$. 
+Therefore, the time evolution from $nT$ to $(n+1)T$ for any site is a rotation:
+\begin{equation}
+\tau_1(\vec{s}_i)=
+\begin{pmatrix}
+s^x_i \mathrm{cos}(\tilde{g_i}T/2)-s^y_i \mathrm{sin}(\tilde{g_i}T/2)\\
+s^x_i \mathrm{sin}(\tilde{g_i}T/2)+s^y_i \mathrm{cos}(\tilde{g_i}T/2)\\
+s^z_i
+\end{pmatrix},
+\end{equation}
+in which the values of $s^\alpha_i$ are chosen at $t=nT$. 
+Similarly, the evolution from $(n+1/2)T$ to $(n+1)T$ can be expressed as:
+\begin{equation}
+\tau_2(\vec{s}_i)=
+\begin{pmatrix}
+s^x_i\\
+s^y_i \mathrm{cos}(h_i T/2)-s^z_i \mathrm{sin}(h_i T/2)\\
+s^y_i \mathrm{sin}(h_i T/2)+s^z_i \mathrm{cos}(h_i  T/2)
+\end{pmatrix},
+\end{equation}
+in which the values of $s^\alpha_i$ are chosen at $t=(n+1/2)T$. 
+Then the full evolution during a driving period is given by the map $\tau_2 \circ \tau_1$.
+
+\end{document}
