@@ -5,7 +5,7 @@ __pycache__/
 
 # latex
 tex/*.pdf
-tex/*.syntex.gz
+tex/*.synctex.gz
 tex/*.aux
 tex/*.out
 
