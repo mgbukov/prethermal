@@ -90,7 +90,7 @@ for j in range(nT):
 	sent_t[j]=basis.ent_entropy(psi,sub_sys_A=subsys)['Sent_A'] # entanglement entropy per site
 	energy_t[j]=H_ave.expt_value(psi).real/L # energy density
 
-	#print('finished evolving time step {0:d}'.format(j))	
+	print('finished evolving time step {0:d}'.format(j))	
 
 t2 = timeit.default_timer()
 print('matrix_exp evolution took {0:f} secs'.format(t2-t1))
@@ -107,7 +107,7 @@ psi_FFHT[basis.Ns:]=psi_0.imag.copy()
 
 psi_FFHT_cpx=np.zeros((basis.Ns,),dtype=np.complex128)
 
-norm=np.sqrt(2)**L
+norm=basis.Ns #np.sqrt(2)**L
 a=np.zeros_like(psi_0)
 
 t1 = timeit.default_timer()
@@ -117,7 +117,7 @@ for j in range(nT):
 	# apply FHT 
 	ffht.fht(psi_FFHT[:basis.Ns])
 	ffht.fht(psi_FFHT[basis.Ns:])
-	psi_FFHT/=norm
+	#psi_FFHT/=norm
 
 	# apply Ux
 
@@ -154,7 +154,7 @@ for j in range(nT):
 	energy_t[j]=H_ave.expt_value(psi_FFHT_cpx).real/L # energy density
 
 
-	#print('finished evolving time step {0:d}'.format(j))
+	print('finished evolving time step {0:d}'.format(j))
 
 t2 = timeit.default_timer()
 # construct complex psi
