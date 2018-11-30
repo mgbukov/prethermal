@@ -1,0 +1,10 @@
+dirc,/home/bingtianye/Floquet_qc/output/DMT
+Omega, 4.6
+Ttotal, 100
+L, 20
+J, 1.0
+g, 0.809
+h, 0.7045
+delta_g, 0.
+PBC, 1
+chi, 32
